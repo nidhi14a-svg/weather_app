@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+/>
+
+  <title>Simple Weather App</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220cc;
+      --accent:#1a1d20;
+      --glass: rgba(255,255,255,0.04);
+      --muted: #121417;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto, "Helvetica Neue",Arial;
+      background: linear-gradient(180deg,#071024 0%, #09203f 60%);
+      color:#131414;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:2rem;
+    }
+
+    .app{
+      width:100%;
+      max-width:760px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius:14px;
+      padding:1.25rem;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(8px) saturate(120%);
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    header{
+      display:flex;
+      gap:1rem;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:1rem;
+    }
+    header h1{font-size:1.125rem;margin:0}
+    header p{margin:0;color:var(--muted);font-size:0.9rem}
+
+    .controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-bottom: 1rem;
+  border: 2px solid black;    /* optional: adds space inside the border */
+}
+
+    input[type=text]{
+      flex:1;
+      padding:.75rem 1rem;
+      border-radius:10px;
+      border:1px solid rgba(221, 10, 10, 0.06);
+      background:var(--glass);
+      color:inherit;
+      outline:none;
+      font-size:1rem;
+    }
+    button{
+      padding:.7rem 1rem;
+      background:linear-gradient(180deg,var(--accent),#e83407);
+      border:none;
+      color:#fff;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+      box-shadow: 0 6px 18px rgba(205, 31, 31, 0.18);
+    }
+    button:disabled{opacity:.6;cursor:not-allowed}
+
+    .card{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:1rem;
+      align-items:center;
+      padding:1rem;
+      border-radius:10px;
+      background: rgba(52, 235, 71, 0.02);
+      border:1px solid rgba(30, 32, 30, 0.03);
+    }
+
+    .left{display:flex;flex-direction:column;gap:.5rem}
+    .location{display:flex;gap:.5rem;align-items:center}
+    .location h2{margin:0;font-size:1.125rem}
+    .meta{color:var(--muted);font-size:0.9rem}
+
+    .temp{font-size:2.25rem;font-weight:700}
+    .cond{font-size:1rem;color:var(--muted)}
+
+    .right{display:flex;flex-direction:column;align-items:center;gap:.25rem;padding: .25rem .5rem}
+    .icon{width:88px;height:88px}
+    .details{margin-top:.5rem;color:var(--muted);font-size:0.9rem}
+
+    .small{font-size:0.85rem;color:var(--muted)}
+    .error{color:#ffb4b4;background:rgba(255,180,180,0.04);padding:.6rem;border-radius:8px;margin-top:.75rem}
+    .footer{margin-top:.9rem;color:var(--muted);font-size:0.85rem;text-align:center}
+
+    @media (max-width:560px){
+      .card{grid-template-columns:1fr}
+      .temp{font-size:1.8rem}
+      .icon{width:64px;height:64px}
+    }
+    body {
+      background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1600&q=80') no-repeat center center/cover;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Glass effect navbar */
+    .navbar {
+      background: rgba(255, 255, 255, 0.1) !important;
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .navbar-brand {
+      color: #ffcc70 !important;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .nav-link {
+      color: #ffffff !important;
+      margin-right: 15px;
+      transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    .nav-link:hover {
+      color: #ffcc70 !important;
+      transform: scale(1.1);
+    }
+
+    .btn-outline-success {
+      color: #ffcc70;
+      border-color: #ffcc70;
+    }
+
+    .btn-outline-success:hover {
+      background-color: #ffcc70;
+      color: #111010;
+    }
+    body {
+      background-image: url('https://media.istockphoto.com/id/1007768414/photo/blue-sky-with-bright-sun-and-clouds.jpg?s=612x612&w=0&k=20&c=MGd2-v42lNF7Ie6TtsYoKnohdCfOPFSPQt5XOz4uOy4='); /* Replace with your image name or link */
+      background-size: cover; /* Makes it cover the full screen */
+      background-repeat: no-repeat;
+      background-attachment: fixed; /* Keeps it fixed when scrolling */
+      background-position: center;
+    }
+  </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Dropdown</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav>
+  <main class="app" role="main">
+    <header>
+      <div>
+        <h1>Weather forcast</h1>
+        <p>Type a city, town or postal code and press Search (or Enter).</p>
+      </div>
+    </header>
+
+    <div class="controls" aria-hidden="false">
+      <label for="location-input" class="visually-hidden">Location</label>
+      <input id="location-input" type="text" placeholder="e.g. London or 10001" aria-label="Location input" autocomplete="on" />
+      <button id="search-btn">Search</button>
+    </div>
+
+    <div id="result-area" class="card" hidden>
+      <div class="left">
+        <div class="location">
+          <h2 id="place">—</h2>
+          <div class="meta" id="local-time">(local time)</div>
+        </div>
+        <div class="temp" id="temperature">--°C</div>
+        <div class="cond" id="condition">—</div>
+      </div>
+      <div class="right">
+        <img id="cond-icon" class="icon" alt="weather icon" src="" />
+        <div class="details" id="extra">
+          Humidity: —<br />Feels like: —
+        </div>
+      </div>
+    </div>
+
+    <div id="message" role="status" aria-live="polite" class="small" style="margin-top:.75rem"></div>
+    <div id="error" class="error" hidden></div>
+
+    <div class="footer">Tip: you can press Enter after typing the location. Last searched location is saved in your browser.</div>
+  </main>
+  
+
+  <script>
+    // IMPORTANT: this file uses the API key you provided in the initial request.
+    // If you want to use your own key, update apiKey below.
+    const apiKey = '27b17854fc604ddcaed81725252510';
+    const baseUrl = 'http://api.weatherapi.com/v1/current.json';
+
+    const input = document.getElementById('location-input');
+    const btn = document.getElementById('search-btn');
+    const resultArea = document.getElementById('result-area');
+    const placeEl = document.getElementById('place');
+    const tempEl = document.getElementById('temperature');
+    const condEl = document.getElementById('condition');
+    const iconEl = document.getElementById('cond-icon');
+    const extraEl = document.getElementById('extra');
+    const msg = document.getElementById('message');
+    const errBox = document.getElementById('error');
+    const localTimeEl = document.getElementById('local-time');
+
+    // Initialize
+    (function init(){
+      const last = localStorage.getItem('lastLocation');
+      if(last){
+        input.value = last;
+        // optionally auto-search when page loads — commented out to avoid unexpected calls
+        // fetchWeather(last);
+      }
+    })();
+
+    btn.addEventListener('click', onSearch);
+    input.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ onSearch(); } });
+
+    function showMessage(text){ msg.textContent = text; }
+    function showError(text){ errBox.hidden = false; errBox.textContent = text; }
+    function clearError(){ errBox.hidden = true; errBox.textContent = ''; }
+
+    async function onSearch(){
+      const q = input.value.trim();
+      clearError();
+      resultArea.hidden = true;
+      if(!q){ showError('Please enter a location (city, town or postal code).'); return; }
+
+      localStorage.setItem('lastLocation', q);
+      showMessage('Fetching weather...');
+      btn.disabled = true;
+      input.disabled = true;
+
+      try{
+        const url = `${baseUrl}?key=${encodeURIComponent(apiKey)}&q=${encodeURIComponent(q)}&aqi=yes`;
+        const res = await fetch(url);
+        if(!res.ok){
+          const text = await res.text();
+          throw new Error('Network error: ' + res.status + ' — ' + text);
+        }
+        const data = await res.json();
+        if(data && data.error){
+          throw new Error(data.error.message || 'Unknown API error');
+        }
+        renderWeather(data);
+        showMessage('');
+      }catch(err){
+        showMessage('');
+        console.error(err);
+        showError('Could not fetch weather. ' + (err.message || 'Unknown error'));
+      }finally{
+        btn.disabled = false;
+        input.disabled = false;
+      }
+    }
+
+    function renderWeather(data){
+      if(!data || !data.location || !data.current) return showError('Invalid data from API');
+      const loc = data.location;
+      const cur = data.current;
+
+      placeEl.textContent = `${loc.name}, ${loc.region || loc.country}`;
+      localTimeEl.textContent = `• ${loc.localtime}`;
+
+      tempEl.textContent = `${Math.round(cur.temp_c)}°C (${Math.round(cur.temp_f)}°F)`;
+      condEl.textContent = `${cur.condition.text}`;
+      iconEl.src = `https:${cur.condition.icon}`;
+      iconEl.alt = cur.condition.text || 'weather';
+
+      extraEl.innerHTML = `Humidity: ${cur.humidity}%<br>Feels like: ${Math.round(cur.feelslike_c)}°C (${Math.round(cur.feelslike_f)}°F)<br>Wind: ${cur.wind_kph} kph`;
+
+      resultArea.hidden = false;
+    }
+
+    // Accessibility helper: visually-hidden label style
+    (function addVisuallyHidden(){
+      const style = document.createElement('style');
+      style.textContent = `.visually-hidden{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}`;
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>
